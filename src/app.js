@@ -1,13 +1,15 @@
-import express from "express"
+import express,{json} from "express"
 import dotenv from "dotenv"
 import { MongoClient } from "mongodb"
-
+import Joi from "joi"
 
 dotenv.config()
 
 const app = express()
-const client = new MongoClient(process.env.MONGODB_URL)
+app.use(json())
 
+
+const client = new MongoClient(process.env.MONGODB_URL)
 let db;
 
 
@@ -23,6 +25,43 @@ async function conexaoDB() {
 } 
 
 conexaoDB()
+
+const validacao = Joi.object({
+    username: Joi.string().min(3).required(),
+    avatar: Joi.string().uri().required()
+})
+
+app.post("/sign-up", async (req,res)=>{
+
+    const {username,avatar} = req.body
+
+    const {error} = validacao.validate({username,avatar}, { abortEarly: false })
+
+    if(error) {
+        return res.status(422).send(error.details.map(e => e.message))
+    }
+
+    const usuarioExiste = await db.collection("users").findOne({username})
+
+    if(usuarioExiste) {
+        return res.status(409).send("Usuario ja cadastrado")
+    }
+
+
+   try {
+    const usuario = {username,avatar}
+    await db.collection("users").insertOne(usuario);
+    res.status(201).send("Usuario criado com sucesso!")
+   } catch (err) {
+    res.send(500).send("erro com o banco de dados")
+   }
+
+})
+
+
+
+
+
 
 
 
