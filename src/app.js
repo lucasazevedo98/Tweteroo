@@ -112,6 +112,40 @@ app.get("/tweets" , async (req,res)=>{
     res.status(200).send(tweetersComAvatar)
 })
 
+app.put(("/tweets/:id"), async(req,res)=>{
+    const {id} = req.params
+    const {tweet} = req.body
+
+
+    const validacao = Joi.object({
+        tweet: Joi.string().required(),
+    })
+
+    const {error} = validacao.validate({tweet})
+
+    if(error) {
+        return res.status(422).send(error.details.map(e => e.message))
+    }
+
+
+    try{
+
+        const resultado = await db.collection("tweets").updateOne(
+            {_id: new ObjectId(id)},
+            {$set: {tweet}}
+        )
+
+        if(resultado.matchedCount === 0) {
+            return res.status(404).send({ message: 'Tweet não encontrado' });
+        }
+
+        res.status(204).send({message: 'tweets modificado com sucesso!'})
+
+    } catch (error) {
+        res.status(500).send({ message: 'Erro ao atualizar o tweet', error: error.message });
+    }
+})
+
 
 app.delete("/tweets/:id", async (req,res)=>{
     const {id} = req.params
