@@ -1,12 +1,14 @@
 import express,{json} from "express"
 import dotenv from "dotenv"
-import { MongoClient } from "mongodb"
+import { MongoClient,ObjectId } from "mongodb"
 import Joi from "joi"
+import cors from "cors"
 
 dotenv.config()
 
 const app = express()
 app.use(json())
+app.use(cors())
 
 
 const client = new MongoClient(process.env.MONGODB_URL)
@@ -110,6 +112,21 @@ app.get("/tweets" , async (req,res)=>{
     res.status(200).send(tweetersComAvatar)
 })
 
+
+app.delete("/tweets/:id", async (req,res)=>{
+    const {id} = req.params
+
+    try {
+        const deletarTweets = await db.collection("tweets").deleteOne({_id: new ObjectId(id)})
+
+        if (deletarTweets.deletedCount === 0) {
+            return res.status(404).send({ message: 'Tweet não encontrado' });
+        }
+        res.status(200).send({ message: `Tweet com o ID ${id} excluído com sucesso` });
+    } catch (error) {
+        res.status(500).send({ message: 'Erro ao excluir o tweet', error: error.message });
+      }
+})
 
 
 
