@@ -1,0 +1,29 @@
+[33mcommit a5ef5e78a1b1c3a8ae1d2a0fcb8eadaf1c2e8929[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: lucasazevedo98 <azevedi22@gmail.com>
+Date:   Sat Dec 7 10:36:31 2024 -0300
+
+    criação da rota post tweets
+
+[33mcommit cbbfeee87ce8520330f7032ed91358360e6e26c9[m
+Author: lucasazevedo98 <azevedi22@gmail.com>
+Date:   Sat Dec 7 10:02:31 2024 -0300
+
+    criação da pagina de login
+
+[33mcommit b170a7ee7d5375785082c4c0c6ab41e5ddbd4901[m
+Author: lucasazevedo98 <96752334+lucasazevedo98@users.noreply.github.com>
+Date:   Sat Dec 7 09:06:01 2024 -0300
+
+    Delete node_modules directory
+
+[33mcommit 01ad819ac3353b8027173bda1de8428c09092de2[m
+Author: lucasazevedo98 <azevedi22@gmail.com>
+Date:   Sat Dec 7 09:04:36 2024 -0300
+
+    conexão com o DB
+
+[33mcommit 608d69180039f8f7256b4eed847abd06a7faa07e[m
+Author: lucasazevedo98 <azevedi22@gmail.com>
+Date:   Sat Dec 7 08:47:55 2024 -0300
+
+    inicio do projeto

@@ -94,6 +94,21 @@ app.post("/tweets", async(req,res)=>{
     res.send()
 })
 
+app.get("/tweets" , async (req,res)=>{
+    const tweets= await db.collection("tweets").find().sort({_id:-1}).toArray()
+
+    const tweetersComAvatar = await Promise.all(tweets.map(async(e) => {
+        const usuario = await db.collection("users").findOne({username:e.username})
+        return {
+            _id: e._id,
+            username: e.username,
+            avatar: usuario ? usuario.avatar : '',
+            tweet:e.tweet
+        }
+    }))
+
+    res.status(200).send(tweetersComAvatar)
+})
 
 
 
